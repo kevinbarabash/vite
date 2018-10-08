@@ -1,0 +1,28 @@
+{
+  "name": "vite-demo",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "jest": {
+    "testRegex": "/test/.+\\.js$",
+    "testEnvironment": "jest-environment-selenium",
+    "setupTestFrameworkScriptFile": "./test-setup.js"
+  },
+  "dependencies": {
+    "aphrodite": "^2.2.3",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-plugin-original-source": "0.0.1",
+    "jest-environment-selenium": "^1.1.0",
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "vite-server": "0.0.1"
+  },
+  "scripts": {
+    "test": "jest --no-cache"
+  }
+}

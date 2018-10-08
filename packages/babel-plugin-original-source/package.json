@@ -1,0 +1,28 @@
+{
+  "name": "babel-plugin-original-source",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "jest": {
+    "testRegex": "/test/.+\\.js$",
+    "testPathIgnorePatterns": [
+      "/test/fixtures/"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.1",
+    "@babel/generator": "^7.0.0",
+    "@babel/helper-plugin-utils": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/traverse": "^7.0.0",
+    "@babel/types": "^7.0.0",
+    "aphrodite": "^2.2.3",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0"
+  },
+  "scripts": {
+    "test": "jest --no-cache",
+    "build": "babel src/index.js -d dist"
+  }
+}
