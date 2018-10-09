@@ -5,7 +5,7 @@
   "license": "MIT",
   "jest": {
     "testRegex": "/test/.+\\.js$",
-    "testEnvironment": "jest-environment-selenium",
+    "testEnvironment": "jest-environment-vite",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!<rootDir>/util/",
@@ -25,7 +25,7 @@
     "babel-plugin-original-source": "0.0.1",
     "istanbul-api": "^2.0.6",
     "istanbul-lib-coverage": "^2.0.1",
-    "jest-environment-selenium": "^1.1.0",
+    "jest-environment-vite": "0.0.1",
     "selenium-webdriver": "^4.0.0-alpha.1",
     "stoppable": "^1.0.6",
     "vite-server": "0.0.1"

@@ -1,7 +1,10 @@
 import Foo from "../src/foo.js";
 import Bar from "../src/bar.js";
 
-import {render} from "../util/util.js";
+// TODO: extract this into jest-environment-vite
+beforeEach(async () => {
+    await driver.get("http://localhost:3000/");
+});
 
 describe("selenium tests", () => {
     test("the title should be 'Hello, world!'", async () => {     
