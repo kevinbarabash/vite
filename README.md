@@ -51,7 +51,8 @@ import statements without it.
 - [x] automate path rewriting within tests
 - [x] coverage
 - [ ] run tests in different browsers
-- [ ] extract utils from vite-demo into vite-helpers
+- [x] extract utils from vite-demo into jest-environment-vite
+- [ ] add config options to jest-environment-vite to toggle debug output from vite-server
 - [ ] run tests inside docker
 - [ ] add ability to take screenshots
 - [ ] comparison new screenshots against existing snapshots
