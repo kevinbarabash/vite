@@ -43,10 +43,10 @@ module.exports = ViteEnvironment;
  * 
  * `data` can be passed either a React element or a thunk which returns a React element.
  * 
- * Note: you must use babel-plugin-original-source to transform the test files using this
- * function.  This plugin looks at all calls to `render` and replaces the first argument
- * with an object containing the original source of the argument along with the imports
- * required to excute it.
+ * Note: you must use babel-plugin-vite to transform the test files using this function.  
+ * This plugin looks at all calls to `render` and replaces the first argument with an 
+ * object containing the original source of the argument along with the imports required 
+ * to excute it.
  * 
  * e.g.
  * ```

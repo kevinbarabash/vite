@@ -22,7 +22,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-transform-modules-commonjs": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
-    "babel-plugin-original-source": "0.0.1",
+    "babel-plugin-vite": "0.0.1",
     "jest-environment-vite": "0.0.1"
   },
   "scripts": {

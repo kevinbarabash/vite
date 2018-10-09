@@ -1,4 +1,4 @@
-import originalSourcePlugin from "../src/index.js";
+import plugin from "../src/index.js";
 import fs from "fs";
 import path from "path";
 
@@ -6,7 +6,7 @@ import {transform} from "@babel/core";
 
 const options = {
     plugins: [
-        [originalSourcePlugin, {functions: ["render"]}],
+        [plugin, {functions: ["render"]}],
     ],
     parserOpts: {
         plugins: ["jsx"],
@@ -16,7 +16,7 @@ const options = {
 const readFile = (filename) =>
     fs.readFileSync(path.join(__dirname, filename)).toString();
 
-describe("originalSourcePlugin", () => {
+describe("plugin", () => {
     for (const fixture of fs.readdirSync(path.join(__dirname, "fixtures"))) {
         test(fixture, () => {
             const filename = path.join(__dirname, "fixtures", fixture, "input.js");

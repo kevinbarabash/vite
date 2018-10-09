@@ -18,10 +18,11 @@ a `TAB` keypress event with JavaScript which is what `enzyme` does.
 ## Quick Start
 
 - yarn
-- cd packages/babel-plugin-original-source
+- cd packages/babel-plugin-vite
 - yarn build
-- cd ..
-- cd vite-demo
+- cd ../jest-environment-vite
+- yarn build
+- cd ../vite-demo
 - yarn test
 
 ## Architecture

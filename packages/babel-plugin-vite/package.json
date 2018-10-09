@@ -1,5 +1,5 @@
 {
-  "name": "babel-plugin-original-source",
+  "name": "babel-plugin-vite",
   "version": "0.0.1",
   "main": "dist/index.js",
   "license": "MIT",

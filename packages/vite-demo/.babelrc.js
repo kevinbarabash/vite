@@ -3,6 +3,6 @@ module.exports = {
     "plugins": [
         "@babel/plugin-transform-modules-commonjs",
         "@babel/plugin-syntax-dynamic-import",
-        "babel-plugin-original-source",
+        "babel-plugin-vite",
     ],
 };
