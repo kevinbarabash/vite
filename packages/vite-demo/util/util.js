@@ -3,12 +3,13 @@ import istanbulApi from "istanbul-api";
 import istanbulLibCoverage from "istanbul-lib-coverage";
 import stoppable from "stoppable";
 
-let server, coverageMap;
+let server, coverageMap, containers;
 
-beforeAll(() => {
+beforeAll(async () => {
     server = require("vite-server");
     stoppable(server, 0);
     coverageMap = istanbulLibCoverage.createCoverageMap({});
+    containers = [];
 });
 
 afterAll(() => {
@@ -17,6 +18,28 @@ afterAll(() => {
     reporter.write(coverageMap);
 
     server.stop(() => console.log("stopping server"));
+});
+
+beforeEach(async () => {
+    await driver.get("http://localhost:3000/");
+});
+
+// TODO: provide an option to only call driver.get() once
+// We currently reload the page before each test.  This gets rid of any global 
+// state a test or component might have created.  In some case we may
+// know that no global state is being created in which case only calling
+// driver.get() once will result in faster test runs.
+afterEach(async () => {
+    await driver.executeScript((containers) => {
+        (async () => {
+            const ReactDOM = (await import("/node_modules/react-dom.js")).default;
+            for (const container of containers) {
+                ReactDOM.unmountComponentAtNode(container);
+                document.body.removeChild(container);
+            }
+        })();
+    }, containers);
+    containers = [];
 });
 
 /**
@@ -78,7 +101,7 @@ export async function render(data) {
         lines.push(`const element = ${data.code};`);
     }
 
-    lines.push(`ReactDOM.render(element, container, () => callback({element: container, coverage: window.__coverage__}));`);
+    lines.push(`ReactDOM.render(element, container, () => callback({container: container, coverage: window.__coverage__}));`);
     lines.push("}");
 
     const {code} = transformSync(lines.join("\n"), {
@@ -92,22 +115,10 @@ export async function render(data) {
         func(callback);
     };
 
-    const {element, coverage} = await driver.executeAsyncScript(script, code);
+    const {container, coverage} = await driver.executeAsyncScript(script, code);
 
     coverageMap.merge(coverage);
+    containers.push(container);
 
-    return element;
-}
-
-/**
- * Removes an element containing a React component.
- */
-export function cleanup(container) {
-    return driver.executeScript((container) => {
-        (async () => {
-            const ReactDOM = (await import("/node_modules/react-dom.js")).default;
-            ReactDOM.unmountComponentAtNode(container);
-            document.body.removeChild(container);
-        })();
-    }, container);
+    return container;
 }
