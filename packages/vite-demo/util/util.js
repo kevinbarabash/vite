@@ -1,4 +1,22 @@
-import {transform} from "sucrase";
+import {transformSync} from "@babel/core";
+import istanbulApi from "istanbul-api";
+import istanbulLibCoverage from "istanbul-lib-coverage";
+
+const server = require("vite-server");
+
+let coverageMap;
+
+beforeAll(() => {
+    coverageMap = istanbulLibCoverage.createCoverageMap({});
+});
+
+afterAll(() => {
+    const reporter = istanbulApi.createReporter();
+    reporter.addAll(['json', 'text', 'lcov']);
+    reporter.write(coverageMap);
+
+    server.close();
+});
 
 /**
  * Renders a React element.
@@ -37,7 +55,7 @@ import {transform} from "sucrase";
  * can't pass classes or functions which is why we have to import all of our dependencies
  * from within the Selenium context.
  */
-export function render(data) {
+export async function render(data) {
     /**
      * We use dynamic import statements so that we can run this code without
      * using a <script> tag.  This allows us to interact with the code we're
@@ -45,6 +63,7 @@ export function render(data) {
      * callback we're passing in.
      */
     const lines = [
+        `async () => {`,
         `const React = (await import("/node_modules/react.js")).default;`,
         `const ReactDOM = (await import("/node_modules/react-dom.js")).default;`,
         // TODO: automate path adjustments
@@ -54,20 +73,30 @@ export function render(data) {
     ];
 
     if (data.code.startsWith("() =>")) {
-        lines.push(`const element = (${data.code})()`);
+        lines.push(`const element = (${data.code})();`);
     } else {
-        lines.push(`const element = ${data.code}`);
+        lines.push(`const element = ${data.code};`);
     }
 
-    lines.push(`ReactDOM.render(element, container, () => callback(container));`);
+    lines.push(`ReactDOM.render(element, container, () => callback({element: container, coverage: window.__coverage__}));`);
+    lines.push("}");
 
-    const code = transform(lines.join("\n"), {transforms: ['jsx', 'flow']}).code;
+    const {code} = transformSync(lines.join("\n"), {
+        plugins: ["@babel/plugin-syntax-dynamic-import"],
+        presets: ["@babel/preset-react"],
+    });
 
-    return driver.executeAsyncScript(function (code) {
+    const script = function (code) {
         const callback = arguments[arguments.length - 1];
-        const func = new Function("callback", `(async function() {${code}})()`);
+        const func = new Function("callback", `(${code.slice(0, -1)})()`);
         func(callback);
-    }, code);
+    };
+
+    const {element, coverage} = await driver.executeAsyncScript(script, code);
+
+    coverageMap.merge(coverage);
+
+    return element;
 }
 
 /**

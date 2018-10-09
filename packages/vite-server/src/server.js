@@ -3,7 +3,7 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const child_process = require("child_process");
-const {transform} = require("sucrase");
+const {transformSync} = require("@babel/core");
 const commandExists = require("command-exists").sync;
 
 const cjs2es = require("./cjs2es.js");
@@ -97,18 +97,11 @@ const serveModule = (res, name) => {
         res.type('js');
         res.send(modules[name]);
     } else {
-        if (name === "@khanacademy/vite-helpers") {
-            const src = fs.readFileSync(filename).toString();
+        cjs2es(name).then(code => {
             res.type('js');
-            res.send(compile(src));
-        } else {
-            // TODO(kevinb): update cached module if code changes
-            cjs2es(name).then(code => {
-                res.type('js');
-                res.send(code);
-                modules[name] = code;
-            });
-        }
+            res.send(code);
+            modules[name] = code;
+        });
     }
 }
 
@@ -141,15 +134,22 @@ app.post('/finish/:runner', (req, res) => {
     process.exit();
 });
 
-const compile = (src) => {
-    // rewrite imports of node modules to be imports from /node_modules/<module_name>
-    const code = src.replace(/from\s+\"([^\"\.\/][^\"]+)\"/g, 
-        (match, group1, offset, string) => `from "/node_modules/${group1}.js"`);
+const compile = (filename) => {
+    const src = fs.readFileSync(filename).toString();
+    const relativePath = path.relative(process.cwd(), filename);
 
-    return transform(code, {transforms: ['jsx', 'flow']}).code;
+    const code = transformSync(src, {
+        plugins: ["@babel/plugin-syntax-dynamic-import", "istanbul"],
+        presets: ["@babel/preset-react"],
+        filename: relativePath,
+        babelrc: false,
+    }).code;
+
+    return code.replace(/from\s+\"([^\"\.\/][^\"]+)\"/g, 
+        (match, group1, offset, string) => `from "/node_modules/${group1}.js"`);
 }
 
-const serveJsFile = (req, res, filename, srcTransform = (src) => src) => {
+const serveJsFile = (req, res, filename) => {
     if (!fs.existsSync(filename)) {
         console.log(`${filename} doesn't exist`);
         res.status(404);
@@ -158,9 +158,8 @@ const serveJsFile = (req, res, filename, srcTransform = (src) => src) => {
 
     // TODO(kevinb): cache compiled code and update cache when code changes
     console.log(`serving: ${req.path} using ${filename}`);
-    const src = fs.readFileSync(filename).toString();
     res.type('js');
-    res.send(compile(srcTransform(src)));
+    res.send(compile(filename));
 }
 
 app.get('/fixtures/*.js', (req, res) => {
@@ -169,7 +168,7 @@ app.get('/fixtures/*.js', (req, res) => {
         path.relative('fixtures', req.path.slice(1)),
     );
 
-    serveJsFile(req, res, filename, src => `\nimport * as React from "react";\n${src}`);
+    serveJsFile(req, res, filename);
 });
 
 // compile all JS files with sucrase to get convert JSX to plain JS

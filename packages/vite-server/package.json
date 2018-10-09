@@ -7,6 +7,9 @@
     "testRegex": "/test/.+\\.js$"
   },
   "dependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
     "command-exists": "^1.2.7",
     "express": "^4.16.3",
     "react": "^16.5.2",
@@ -15,10 +18,10 @@
     "rollup": "^0.66.4",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-commonjs": "^9.1.8",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "sucrase": "^3.5.0"
+    "rollup-plugin-node-resolve": "^3.4.0"
   },
   "devDependencies": {
+    "babel-plugin-istanbul": "^5.0.1",
     "jest": "^23.6.0"
   },
   "bin": {
