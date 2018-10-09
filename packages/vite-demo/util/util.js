@@ -1,12 +1,13 @@
 import {transformSync} from "@babel/core";
 import istanbulApi from "istanbul-api";
 import istanbulLibCoverage from "istanbul-lib-coverage";
+import stoppable from "stoppable";
 
-const server = require("vite-server");
-
-let coverageMap;
+let server, coverageMap;
 
 beforeAll(() => {
+    server = require("vite-server");
+    stoppable(server, 0);
     coverageMap = istanbulLibCoverage.createCoverageMap({});
 });
 
@@ -15,7 +16,7 @@ afterAll(() => {
     reporter.addAll(['json', 'text', 'lcov']);
     reporter.write(coverageMap);
 
-    server.close();
+    server.stop(() => console.log("stopping server"));
 });
 
 /**

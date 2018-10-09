@@ -27,9 +27,10 @@
     "istanbul-lib-coverage": "^2.0.1",
     "jest-environment-selenium": "^1.1.0",
     "selenium-webdriver": "^4.0.0-alpha.1",
+    "stoppable": "^1.0.6",
     "vite-server": "0.0.1"
   },
   "scripts": {
-    "test": "jest --no-cache --forceExit"
+    "test": "jest --no-cache"
   }
 }
