@@ -2,21 +2,26 @@ import {declare} from "@babel/helper-plugin-utils";
 import * as t from '@babel/types';
 import generate from '@babel/generator';
 import traverse from '@babel/traverse';
+import path from "path";
 
 export default declare((api, options = {}) => {
     api.assertVersion(7);
 
     const imports = {};
+    const cwd = process.cwd();
 
     return {
         visitor: {
-            ImportDeclaration(idPath) {
+            ImportDeclaration(idPath, state) {
                 const {node} = idPath;
+                const filename = path.relative(
+                    cwd, 
+                    path.join(path.dirname(state.file.opts.filename), node.source.value),
+                );
                 for (const specifier of node.specifiers) {
                     if (t.isImportDefaultSpecifier(specifier)) {
                         imports[specifier.local.name] =
-                            `const {default: ${specifier.local.name}} = await import("${node.source.value}");`;
-                        // imports[specifier.local.name] = generate(node).code;
+                            `const {default: ${specifier.local.name}} = await import("./${filename}");`;
                     }
                 }
             },
@@ -40,37 +45,6 @@ export default declare((api, options = {}) => {
                     const usedImports = [];
 
                     usedImports.push(...[...identifiers].map(name => imports[name]));
-                    // if (t.isJSXElement(node.arguments[0])) {
-                    //     usedImports.push(...[...identifiers].map(name => imports[name]));
-                    // } else if (t.isArrowFunctionExpression(node.arguments[0])) {
-                    //     const {body} = node.arguments[0];
-
-                    //     if (t.isBlockStatement(body)) {
-                    //         const innerBody = body.body;
-                    //         if (innerBody.length === 0) {
-                    //             throw new Error("callback must return a value");
-                    //         } else {
-                    //             const last = innerBody.pop();
-
-                    //             if (!t.isReturnStatement(last)) {
-                    //                 throw new Error("callback must end with a return statement");
-                    //             }
-
-                    //             lines.push(...[...identifiers].map(name => imports[name]));
-                    //             lines.push(...innerBody.map(child => generate(child).code));
-                    //             lines.push(`const container = document.getElementById("container");`);
-                    //             lines.push(`ReactDOM.render(${generate(last.argument).code}, container, callback);`);
-
-                    //             node.arguments[0] = t.stringLiteral(lines.join("\n"));
-                    //         }
-                    //     } else if (t.isJSXElement) {
-                    //         lines.push(...[...identifiers].map(name => imports[name]));
-                    //         lines.push(`const container = document.getElementById("container");`);
-                    //         lines.push(`ReactDOM.render(${generate(body).code}, container, callback);`);
-
-                    //         node.arguments[0] = t.stringLiteral(lines.join("\n"));
-                    //     }
-                    // }
 
                     node.arguments[0] = t.objectExpression([
                         t.objectProperty(

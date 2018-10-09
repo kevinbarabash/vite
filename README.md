@@ -48,10 +48,11 @@ import statements without it.
 
 ## TODO
 
-- automate path rewriting within tests
-- run tests in different browsers
-- extract utils from vite-demo into vite-helpers
-- run tests inside docker
-- add ability to take screenshots
-- comparison new screenshots against existing snapshots
-- replace the original `vite`
+- [x] automate path rewriting within tests
+- [x] coverage
+- [ ] run tests in different browsers
+- [ ] extract utils from vite-demo into vite-helpers
+- [ ] run tests inside docker
+- [ ] add ability to take screenshots
+- [ ] comparison new screenshots against existing snapshots
+- [ ] replace the original `vite`

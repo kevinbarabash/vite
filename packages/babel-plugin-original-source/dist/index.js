@@ -13,6 +13,8 @@ var _generator = _interopRequireDefault(require("@babel/generator"));
 
 var _traverse = _interopRequireDefault(require("@babel/traverse"));
 
+var _path = _interopRequireDefault(require("path"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
@@ -29,10 +31,14 @@ var _default = (0, _helperPluginUtils.declare)(function (api) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   api.assertVersion(7);
   var imports = {};
+  var cwd = process.cwd();
   return {
     visitor: {
-      ImportDeclaration: function ImportDeclaration(idPath) {
+      ImportDeclaration: function ImportDeclaration(idPath, state) {
         var node = idPath.node;
+
+        var filename = _path.default.relative(cwd, _path.default.join(_path.default.dirname(state.file.opts.filename), node.source.value));
+
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
         var _iteratorError = undefined;
@@ -42,7 +48,7 @@ var _default = (0, _helperPluginUtils.declare)(function (api) {
             var specifier = _step.value;
 
             if (t.isImportDefaultSpecifier(specifier)) {
-              imports[specifier.local.name] = "const {default: ".concat(specifier.local.name, "} = await import(\"").concat(node.source.value, "\");"); // imports[specifier.local.name] = generate(node).code;
+              imports[specifier.local.name] = "const {default: ".concat(specifier.local.name, "} = await import(\"./").concat(filename, "\");"); // imports[specifier.local.name] = generate(node).code;
             }
           }
         } catch (err) {
@@ -77,33 +83,7 @@ var _default = (0, _helperPluginUtils.declare)(function (api) {
           var usedImports = [];
           usedImports.push.apply(usedImports, _toConsumableArray(_toConsumableArray(identifiers).map(function (name) {
             return imports[name];
-          }))); // if (t.isJSXElement(node.arguments[0])) {
-          //     usedImports.push(...[...identifiers].map(name => imports[name]));
-          // } else if (t.isArrowFunctionExpression(node.arguments[0])) {
-          //     const {body} = node.arguments[0];
-          //     if (t.isBlockStatement(body)) {
-          //         const innerBody = body.body;
-          //         if (innerBody.length === 0) {
-          //             throw new Error("callback must return a value");
-          //         } else {
-          //             const last = innerBody.pop();
-          //             if (!t.isReturnStatement(last)) {
-          //                 throw new Error("callback must end with a return statement");
-          //             }
-          //             lines.push(...[...identifiers].map(name => imports[name]));
-          //             lines.push(...innerBody.map(child => generate(child).code));
-          //             lines.push(`const container = document.getElementById("container");`);
-          //             lines.push(`ReactDOM.render(${generate(last.argument).code}, container, callback);`);
-          //             node.arguments[0] = t.stringLiteral(lines.join("\n"));
-          //         }
-          //     } else if (t.isJSXElement) {
-          //         lines.push(...[...identifiers].map(name => imports[name]));
-          //         lines.push(`const container = document.getElementById("container");`);
-          //         lines.push(`ReactDOM.render(${generate(body).code}, container, callback);`);
-          //         node.arguments[0] = t.stringLiteral(lines.join("\n"));
-          //     }
-          // }
-
+          })));
           node.arguments[0] = t.objectExpression([t.objectProperty(t.identifier("code"), t.stringLiteral((0, _generator.default)(node.arguments[0]).code)), t.objectProperty(t.identifier("imports"), t.arrayExpression(usedImports.map(function (x) {
             return t.stringLiteral(x);
           })))]);

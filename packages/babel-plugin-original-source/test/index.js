@@ -19,8 +19,10 @@ const readFile = (filename) =>
 describe("originalSourcePlugin", () => {
     for (const fixture of fs.readdirSync(path.join(__dirname, "fixtures"))) {
         test(fixture, () => {
-            const input = fs.readFileSync(path.join(__dirname, "fixtures", fixture, "input.js"));
-            const output = transform(input.toString(), options);
+            const filename = path.join(__dirname, "fixtures", fixture, "input.js");
+            const input = fs.readFileSync(filename);
+            const output = transform(
+                input.toString(), Object.assign({}, options, {filename: filename, babelrc: false}));
             expect(output.code).toEqual(
                 fs.readFileSync(path.join(__dirname, "fixtures", fixture, "output.js")).toString()
             );

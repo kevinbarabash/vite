@@ -67,8 +67,7 @@ export async function render(data) {
         `async () => {`,
         `const React = (await import("/node_modules/react.js")).default;`,
         `const ReactDOM = (await import("/node_modules/react-dom.js")).default;`,
-        // TODO: automate path adjustments
-        ...data.imports.map(line => line.replace("..", ".")),
+        ...data.imports,
         `const container = document.createElement("container");`,
         `document.body.appendChild(container);`,
     ];
