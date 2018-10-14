@@ -9,6 +9,7 @@
   "dependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-transform-flow-strip-types": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "command-exists": "^1.2.7",
     "express": "^4.16.3",

@@ -1,3 +1,4 @@
+// @flow
 import Foo from "../src/foo.js";
 import Bar from "../src/bar.js";
 

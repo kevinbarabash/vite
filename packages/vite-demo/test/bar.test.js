@@ -1,3 +1,4 @@
+// @flow
 import Bar from "../src/bar.js";
 
 describe("bar", () => {

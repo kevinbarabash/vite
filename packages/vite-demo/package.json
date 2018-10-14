@@ -6,6 +6,17 @@
   "jest": {
     "testRegex": "/test/.+\\.js$",
     "testEnvironment": "jest-environment-vite",
+    "testEnvironmentOptions": {
+      "capabilities": {
+        "browserName": "chrome",
+        "chromeOptions": {
+          "args": [
+            "headless",
+            "disable-gpu"
+          ]
+        }
+      }
+    },
     "globalSetup": "../jest-environment-vite/dist/global-setup.js",
     "globalTeardown": "../jest-environment-vite/dist/global-teardown.js",
     "setupTestFrameworkScriptFile": "../jest-environment-vite/dist/setup.js",
@@ -23,6 +34,7 @@
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-transform-flow-strip-types": "^7.0.0",
     "@babel/plugin-transform-modules-commonjs": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "babel-plugin-vite": "0.0.1",

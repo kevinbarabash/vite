@@ -31,7 +31,7 @@ export async function teardown(config) {
     const coverageMap = istanbulLibCoverage.createCoverageMap({});
     coverageMaps.forEach(map => coverageMap.merge(map));
 
-    console.log("write coverage report");
+    console.log("writing coverage report");
     const reporter = istanbulApi.createReporter();
     reporter.addAll(['json', 'text', 'lcov']);
     reporter.write(coverageMap);

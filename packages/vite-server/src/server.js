@@ -139,7 +139,11 @@ module.exports = function createServer(port = 3000) {
         const relativePath = path.relative(process.cwd(), filename);
     
         const code = transformSync(src, {
-            plugins: ["@babel/plugin-syntax-dynamic-import", "istanbul"],
+            plugins: [
+                "@babel/plugin-syntax-dynamic-import", 
+                "@babel/plugin-transform-flow-strip-types", 
+                "istanbul",
+            ],
             presets: ["@babel/preset-react"],
             filename: relativePath,
             babelrc: false,
