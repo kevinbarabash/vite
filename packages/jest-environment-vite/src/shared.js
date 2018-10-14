@@ -41,7 +41,7 @@ export async function teardown(config) {
     
         logger.log("writing coverage report");
         const reporter = istanbulApi.createReporter();
-        reporter.addAll(['json', 'text', 'lcov']);
+        reporter.addAll(config.coverageReporters);
         reporter.write(coverageMap);
     }
 }
