@@ -6,22 +6,27 @@ import ipc from "node-ipc";
 class ViteEnvironment extends SeleniumEnvironment {
     constructor(config) {
         super(config);
+        this.collectCoverage = config.testEnvironmentOptions.collectCoverage;
     }
 
     async setup() {
         await super.setup();
-        this.coverageMap = istanbulLibCoverage.createCoverageMap({});
+        if (this.collectCoverage) {
+            this.coverageMap = istanbulLibCoverage.createCoverageMap({});
+        }
         this.global.render = this.render.bind(this);
         this.global.__containers__ = [];
     }
 
     async teardown() {
-        ipc.config.silent = true;
-        ipc.connectTo('vite', () => {
-            ipc.of.vite.on('connect', () => {
-                ipc.of.vite.emit('coverage', this.coverageMap.toJSON());
+        if (this.collectCoverage) {
+            ipc.config.silent = true;
+            ipc.connectTo('vite', () => {
+                ipc.of.vite.on('connect', () => {
+                    ipc.of.vite.emit('coverage', this.coverageMap.toJSON());
+                });
             });
-        });
+        }
         await super.teardown();
     }
 
@@ -105,7 +110,9 @@ class ViteEnvironment extends SeleniumEnvironment {
 
         const {container, coverage} = await this.global.driver.executeAsyncScript(script, code);
 
-        this.coverageMap.merge(coverage);
+        if (this.collectCoverage) {
+            this.coverageMap.merge(coverage);
+        }
         this.global.__containers__.push(container);
 
         return container;
