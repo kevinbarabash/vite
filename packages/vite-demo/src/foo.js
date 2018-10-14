@@ -11,6 +11,7 @@ export default class Foo extends React.Component<Props> {
     render() {
         // intentionally not covered in tests to check that coverage is working
         if (this.props.log) {
+            // eslint-disable-next-line no-console
             console.log(this.props.msg);
         }
         return <div className={css(styles.container)}>

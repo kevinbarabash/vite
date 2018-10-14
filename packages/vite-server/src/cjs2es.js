@@ -1,6 +1,4 @@
 const rollup = require('rollup');
-const path = require('path');
-const fs = require('fs');
 
 const commonjsPlugin = require('rollup-plugin-commonjs');
 const resolvePlugin = require('rollup-plugin-node-resolve');
@@ -51,7 +49,7 @@ async function build(moduleName) {
     const bundle = await rollup.rollup(inputOptions);
 
     // generate code and a sourcemap
-    let {code, map} = await bundle.generate(outputOptions);
+    let {code} = await bundle.generate(outputOptions);
 
     // TODO: use built-in plugin
     code = code

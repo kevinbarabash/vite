@@ -13,9 +13,6 @@ const options = {
     },
 };
 
-const readFile = (filename) =>
-    fs.readFileSync(path.join(__dirname, filename)).toString();
-
 describe("plugin", () => {
     for (const fixture of fs.readdirSync(path.join(__dirname, "fixtures"))) {
         test(fixture, () => {

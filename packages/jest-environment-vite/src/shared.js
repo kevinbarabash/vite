@@ -1,5 +1,5 @@
+/* eslint-disable no-console */
 import createServer from "vite-server";
-import getPort from "get-port";
 import stoppable from "stoppable";
 import ipc from "node-ipc";
 import istanbulApi from "istanbul-api";

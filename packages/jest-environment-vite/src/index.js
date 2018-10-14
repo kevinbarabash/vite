@@ -99,6 +99,7 @@ class ViteEnvironment extends SeleniumEnvironment {
 
         const script = function (code) {
             const callback = arguments[arguments.length - 1];
+            // eslint-disable-next-line no-new-func
             const func = new Function("callback", `(${code.slice(0, -1)})()`);
             func(callback);
         };
