@@ -15,4 +15,6 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: cd packages/babel-plugin-vite && yarn test
- 
+      - run: cd packages/babel-plugin-vite && yarn build
+      - run: cd packages/jest-environment-vite && yarn build
+      - run: cd packages/vite-demo && yarn test
