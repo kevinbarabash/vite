@@ -42,8 +42,11 @@ module.exports = {
         "jest": true
     },
     extends: [
-        './rules/shared.js',
         './rules/flow.js',
+        './rules/import.js',
+        './rules/monorepo.js',
+        './rules/promise.js',
         './rules/react.js',
+        './rules/shared.js',
     ].map(require.resolve),
 };

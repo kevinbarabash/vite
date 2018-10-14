@@ -1,8 +1,9 @@
-import plugin from "../src/index.js";
 import fs from "fs";
 import path from "path";
 
 import {transform} from "@babel/core";
+
+import plugin from "../src/index.js";
 
 const options = {
     plugins: [

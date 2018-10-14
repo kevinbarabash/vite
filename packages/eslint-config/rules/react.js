@@ -1,9 +1,9 @@
-// JSX/React specific lint rules
 // https://github.com/yannickcr/eslint-plugin-react
 // https://facebook.github.io/react/
 module.exports = {
     rules: {
         "react/forbid-prop-types": ["error", { "forbid": [ "array", "object" ] }],
+        "react/jsx-handler-names": "error",
         "react/jsx-no-duplicate-props": "error",
         // This triggers a ton on stuff like 'if (window.x) { x(...) }'.
         "react/jsx-no-undef": "error",

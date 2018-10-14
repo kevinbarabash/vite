@@ -4,15 +4,15 @@ const commonjsPlugin = require('rollup-plugin-commonjs');
 const resolvePlugin = require('rollup-plugin-node-resolve');
 const autoExternalPlugin = require('rollup-plugin-auto-external');
 
-const resolve = require('resolve');
+const resolveModule = require('resolve');
 
 async function resolvePkg(moduleName, options) {
-    return new Promise((_resolve, reject) => {
-        resolve(moduleName, options, (err, res, pkg) => {
+    return new Promise((resolve, reject) => {
+        resolveModule(moduleName, options, (err, res, pkg) => {
             if (err) {
                 reject(err);
             } else {
-                _resolve({res, pkg});
+                resolve({res, pkg});
             }
         });
     });

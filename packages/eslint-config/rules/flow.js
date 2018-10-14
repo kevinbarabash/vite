@@ -1,4 +1,3 @@
-// Flow static typing lint rules
 // https://github.com/gajus/eslint-plugin-flowtype
 // https://flowtype.org/
 module.exports = {
@@ -6,6 +5,7 @@ module.exports = {
         "flowtype/boolean-style": ["error", "boolean"],
         "flowtype/define-flow-type": "warn", // suppress no-undef on flow types
         "flowtype/no-dupe-keys": "error",
+        "flowtype/no-types-missing-file-annotation": "error",
         "flowtype/no-weak-types": "off",    // allow 'any' for now
         // flow may still require parameter types in certain situations
         "flowtype/require-parameter-type": "off",

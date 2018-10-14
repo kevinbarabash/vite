@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
-const express = require("express");
+const child_process = require("child_process"); // eslint-disable-line camelcase
 const fs = require("fs");
 const path = require("path");
-const child_process = require("child_process"); // eslint-disable-line camelcase
+
+const express = require("express");
 const {transformSync} = require("@babel/core");
 const commandExists = require("command-exists").sync;
 
@@ -80,11 +81,16 @@ module.exports = function createServer(port = 3000) {
             res.type('js');
             res.send(modules[name]);
         } else {
+            // TODO(kevinb): convert to async/await
+            // eslint-disable-next-line promise/always-return
             cjs2es(name).then(code => {
                 res.type('js');
                 res.send(code);
                 modules[name] = code;
-            });
+            }).catch(reason => {
+                console.error(reason);
+                process.exit(1);
+            })
         }
     }
     
