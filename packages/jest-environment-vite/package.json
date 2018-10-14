@@ -8,14 +8,17 @@
     "@babel/core": "^7.1.2",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "get-port": "^4.0.0",
     "istanbul-api": "^2.0.6",
     "istanbul-lib-coverage": "^2.0.1",
     "jest-environment-selenium": "^1.1.0",
+    "node-ipc": "^9.1.1",
     "stoppable": "^1.0.6",
     "vite-server": "0.0.1"
   },
   "scripts": {
-    "build": "babel src/*.js -d dist"
+    "build": "babel src/*.js -d dist",
+    "watch": "babel src/*.js -d dist -w"
   },
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",

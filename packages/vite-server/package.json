@@ -23,8 +23,5 @@
   "devDependencies": {
     "babel-plugin-istanbul": "^5.0.1",
     "jest": "^23.6.0"
-  },
-  "bin": {
-    "vite-server": "./server.js"
   }
 }
