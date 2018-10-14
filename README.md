@@ -1,4 +1,4 @@
-# vite2
+# vite
 
 The goal of this project is to provide and easier and faster way
 to use Selenium for browser based testing of components.  In 
@@ -57,4 +57,4 @@ import statements without it.
 - [ ] run tests inside docker
 - [ ] add ability to take screenshots
 - [ ] comparison new screenshots against existing snapshots
-- [ ] replace the original `vite`
+- [x] replace the original `vite`

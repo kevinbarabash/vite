@@ -3,7 +3,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "name": "vite2",
+  "name": "vite",
   "version": "0.0.1",
   "main": "src/index.js",
   "author": "Kevin Barabash",
