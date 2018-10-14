@@ -44,9 +44,9 @@ Example config:
       },
       "collectCoverage": true
     },
-    "globalSetup": "../jest-environment-vite/dist/global-setup.js",
-    "globalTeardown": "../jest-environment-vite/dist/global-teardown.js",
-    "setupTestFrameworkScriptFile": "../jest-environment-vite/dist/setup.js",
+    "globalSetup": "jest-environment-vite/dist/global-setup.js",
+    "globalTeardown": "jest-environment-vite/dist/global-teardown.js",
+    "setupTestFrameworkScriptFile": "jest-environment-vite/dist/setup.js",
     "verbose": false
   }
 ```
