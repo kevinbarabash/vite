@@ -1,18 +1,16 @@
 import createServer from "vite-server";
-import getPort from "get-port";
 import stoppable from "stoppable";
 import ipc from "node-ipc";
 import istanbulApi from "istanbul-api";
 import istanbulLibCoverage from "istanbul-lib-coverage";
 
 let server;
-
-// TODO: make this configurable
-const port = 3000;
 const coverageMaps = [];
 
 export async function setup(config) {
-    server = createServer(port);
+    const port = 3000;
+    const {verbose} = config;
+    server = createServer({port, verbose});
     stoppable(server, 0);
 
     ipc.config.id = "vite";
@@ -24,15 +22,26 @@ export async function setup(config) {
 }
 
 export async function teardown(config) {
-    server.stop(() => console.log("stopping server"));
+    const logger = {
+        log(...args) {
+            if (verbose) {
+                console.log(...args);
+            }
+        },
+    };
+
+    server.stop(() => logger.log("stopping server"));
     ipc.server.stop();
+    const {verbose} = config;
 
-    console.log("merging coverage");
-    const coverageMap = istanbulLibCoverage.createCoverageMap({});
-    coverageMaps.forEach(map => coverageMap.merge(map));
-
-    console.log("writing coverage report");
-    const reporter = istanbulApi.createReporter();
-    reporter.addAll(['json', 'text', 'lcov']);
-    reporter.write(coverageMap);
+    if (coverageMaps.length > 0) {
+        logger.log("merging coverage");
+        const coverageMap = istanbulLibCoverage.createCoverageMap({});
+        coverageMaps.forEach(map => coverageMap.merge(map));
+    
+        logger.log("writing coverage report");
+        const reporter = istanbulApi.createReporter();
+        reporter.addAll(config.coverageReporters);
+        reporter.write(coverageMap);
+    }
 }

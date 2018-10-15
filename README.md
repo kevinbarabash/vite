@@ -25,6 +25,39 @@ a `TAB` keypress event with JavaScript which is what `enzyme` does.
 - cd ../vite-demo
 - yarn test
 
+## Configuration
+
+Example config:
+```
+  "jest": {
+    "testRegex": "/test/.+\\.js$",
+    "testEnvironment": "jest-environment-vite",
+    "testEnvironmentOptions": {
+      "capabilities": {
+        "browserName": "chrome",
+        "chromeOptions": {
+          "args": [
+            "headless",
+            "disable-gpu"
+          ]
+        }
+      },
+      "collectCoverage": true
+    },
+    "globalSetup": "jest-environment-vite/dist/global-setup.js",
+    "globalTeardown": "jest-environment-vite/dist/global-teardown.js",
+    "setupTestFrameworkScriptFile": "jest-environment-vite/dist/setup.js",
+    "verbose": false
+  }
+```
+
+**Notes**:
+- `collectCoverage` must be specified within `testEnvironmentOptions`.  This
+  is because the way `jest-environment-vite` collects coverage is incompatible
+  with the default jest test runner.
+- `testEnvironmentOptions` are passed through to `jest-environment-selenium`
+  with the `capabilities` section being passed through to `webdriver.Builder().withCapabilities()`.
+
 ## Architecture
 
 The system is comprised of two main parts:
@@ -53,7 +86,7 @@ import statements without it.
 - [x] coverage
 - [ ] run tests in different browsers
 - [x] extract utils from vite-demo into jest-environment-vite
-- [ ] add config options to jest-environment-vite to toggle debug output from vite-server
+- [x] add config options to jest-environment-vite to toggle debug output from vite-server
 - [ ] run tests inside docker
 - [ ] add ability to take screenshots
 - [ ] comparison new screenshots against existing snapshots

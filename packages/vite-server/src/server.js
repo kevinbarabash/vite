@@ -7,8 +7,18 @@ const commandExists = require("command-exists").sync;
 
 const cjs2es = require("./cjs2es.js");
 
-module.exports = function createServer(port = 3000) {
+module.exports = function createServer(options) {
     const app = express();
+    const port = options.port || 3000;
+    const verbose = !!options.verbose;
+
+    const logger = {
+        log(...args) {
+            if (verbose) {
+                console.log(...args);
+            }
+        },
+    };
 
     app.use(express.json());
     
@@ -60,7 +70,7 @@ module.exports = function createServer(port = 3000) {
             res.end();
         }
     
-        console.log(`saving: ${req.body.filename}`);
+        logger.log(`saving: ${req.body.filename}`);
     
         child_process.exec(cmd, (err, stdout, stderr) => {
             if (err) {
@@ -68,14 +78,14 @@ module.exports = function createServer(port = 3000) {
             } else {
                 res.send(`screenshot saved to ${req.body.filename}`);
                 const elapsed = Date.now() - start;
-                console.log(`screenshot took ${elapsed}ms`);
+                logger.log(`screenshot took ${elapsed}ms`);
             }
         });
     });
     
     app.post("/log", (req, res) => {
         const {message} = req.body;
-        console.log(message);
+        logger.log(message);
         res.send("okay");
     });
     
@@ -87,12 +97,12 @@ module.exports = function createServer(port = 3000) {
             : path.join(__dirname, '../../../node_modules', name);
     
         if (!fs.existsSync(filename)) {
-            console.log(`${filename} doesn't exist`);
+            logger.log(`${filename} doesn't exist`);
             res.status(404);
             res.end();
         }
     
-        console.log(`serving: ${name}`);
+        logger.log(`serving: ${name}`);
         if (name in modules) {
             res.type('js');
             res.send(modules[name]);
@@ -107,7 +117,7 @@ module.exports = function createServer(port = 3000) {
     
     // compile node modules on the fly to ES6 modules
     app.get("/node_modules/:module.js", (req, res) => {
-        console.log("requesting a module");
+        logger.log("requesting a module");
         const name = req.params.module;
         serveModule(res, name);
     });
@@ -120,7 +130,7 @@ module.exports = function createServer(port = 3000) {
     
     app.get('/fixtures', (req, res) => {
         const fixtures = fs.readdirSync(config.fixtures);
-        console.log(`fixtures: ${fixtures.join(', ')}`);
+        logger.log(`fixtures: ${fixtures.join(', ')}`);
     
         res.type('json');
         res.send(fixtures);
@@ -155,13 +165,13 @@ module.exports = function createServer(port = 3000) {
     
     const serveJsFile = (req, res, filename) => {
         if (!fs.existsSync(filename)) {
-            console.log(`${filename} doesn't exist`);
+            logger.log(`${filename} doesn't exist`);
             res.status(404);
             res.end();
         }
     
         // TODO(kevinb): cache compiled code and update cache when code changes
-        console.log(`serving: ${req.path} using ${filename}`);
+        logger.log(`serving: ${req.path} using ${filename}`);
         res.type('js');
         res.send(compile(filename));
     }
@@ -190,12 +200,12 @@ module.exports = function createServer(port = 3000) {
         const fullPath = path.join(__dirname, "index.html");
     
         if (!fs.existsSync(fullPath)) {
-            console.log(`${fullPath} doesn't exist`);
+            logger.log(`${fullPath} doesn't exist`);
             res.status(404);
             res.end();
         }
     
-        console.log(`serving: ${filename}`);
+        logger.log(`serving: ${filename}`);
         const contents = fs.readFileSync(fullPath).toString();
         res.type('html');
         res.send(contents);
@@ -204,7 +214,7 @@ module.exports = function createServer(port = 3000) {
     app.get('/index.html', indexHandler);
     app.get('/', indexHandler);
     
-    const server = app.listen(port, () => console.log(`listening on port ${port}`));
+    const server = app.listen(port, () => logger.log(`listening on port ${port}`));
     
     // TODO: check process.platform and start appropriate browser
     const browsers = [];

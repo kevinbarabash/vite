@@ -15,16 +15,13 @@
             "disable-gpu"
           ]
         }
-      }
+      },
+      "collectCoverage": true
     },
-    "globalSetup": "../jest-environment-vite/dist/global-setup.js",
-    "globalTeardown": "../jest-environment-vite/dist/global-teardown.js",
-    "setupTestFrameworkScriptFile": "../jest-environment-vite/dist/setup.js",
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}",
-      "!<rootDir>/util/",
-      "!<rootDir>/test/"
-    ]
+    "globalSetup": "jest-environment-vite/dist/global-setup.js",
+    "globalTeardown": "jest-environment-vite/dist/global-teardown.js",
+    "setupTestFrameworkScriptFile": "jest-environment-vite/dist/setup.js",
+    "verbose": false
   },
   "dependencies": {
     "aphrodite": "^2.2.3",
