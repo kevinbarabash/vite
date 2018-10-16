@@ -137,14 +137,21 @@ module.exports = function createServer(options) {
         const relativePath = path.relative(process.cwd(), filename);
     
         const code = transformSync(src, {
+            // use plugins and presets from vite-server
             plugins: [
-                "@babel/plugin-syntax-dynamic-import", 
-                "@babel/plugin-transform-flow-strip-types", 
-                "istanbul",
+                require("@babel/plugin-proposal-class-properties"),
+                require("@babel/plugin-syntax-dynamic-import"), 
+                require("@babel/plugin-transform-flow-strip-types"), 
+                require("babel-plugin-istanbul"),
             ],
-            presets: ["@babel/preset-react"],
+            presets: [
+                require("@babel/preset-react"),
+            ],
             filename: relativePath,
+            // prevent .babelrc(.js)? from package under test affecting compilation
             babelrc: false,
+            // prevent babel.config.js from package under test affecting compilation
+            configFile: false,
         }).code;
     
         return code.replace(/from\s+"([^"./][^"]+)"/g, 
