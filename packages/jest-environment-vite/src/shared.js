@@ -6,12 +6,17 @@ import istanbulApi from "istanbul-api";
 import istanbulLibCoverage from "istanbul-lib-coverage";
 
 let server;
+
+// store coverage maps from each jest worker
 const coverageMaps = [];
+
+// cache is shared between subsequent test runs when running `jest --watchAll`
+const cache = {};
 
 export async function setup(config) {
     const port = 3000;
     const {verbose} = config;
-    server = createServer({port, verbose});
+    server = createServer({port, verbose, cache});
     stoppable(server, 0);
 
     ipc.config.id = "vite";

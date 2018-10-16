@@ -91,3 +91,4 @@ import statements without it.
 - [ ] add ability to take screenshots
 - [ ] comparison new screenshots against existing snapshots
 - [x] replace the original `vite`
+- [x] cache compiled npm modules

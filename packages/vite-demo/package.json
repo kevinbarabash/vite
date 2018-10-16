@@ -38,6 +38,6 @@
     "jest-environment-vite": "0.0.1"
   },
   "scripts": {
-    "test": "jest --no-cache"
+    "test": "jest"
   }
 }

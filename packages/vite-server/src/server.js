@@ -13,6 +13,7 @@ module.exports = function createServer(options) {
     const app = express();
     const port = options.port || 3000;
     const verbose = !!options.verbose;
+    const cache = options.cache || {};
 
     const logger = {
         log(...args) {
@@ -73,8 +74,6 @@ module.exports = function createServer(options) {
         res.send("okay");
     });
     
-    const modules = {};
-    
     const serveModule = (res, name) => {
         const filename = name === "@khanacademy/vite-helpers"
             ? path.join(__dirname, "helpers.js")
@@ -87,16 +86,16 @@ module.exports = function createServer(options) {
         }
     
         logger.log(`serving: ${name}`);
-        if (name in modules) {
+        if (name in cache) {
             res.type('js');
-            res.send(modules[name]);
+            res.send(cache[name]);
         } else {
             // TODO(kevinb): convert to async/await
             // eslint-disable-next-line promise/always-return
             cjs2es(name).then(code => {
                 res.type('js');
                 res.send(code);
-                modules[name] = code;
+                cache[name] = code;
             }).catch(reason => {
                 console.error(reason);
                 process.exit(1);
