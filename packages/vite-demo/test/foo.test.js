@@ -1,6 +1,5 @@
 // @flow
 import Foo from "../src/foo.js";
-import Bar from "../src/bar.js";
 
 describe("foo", () => {
     test("the title should be 'Hello, world!'", async () => {     

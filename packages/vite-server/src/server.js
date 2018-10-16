@@ -1,7 +1,9 @@
-const express = require("express");
+/* eslint-disable no-console */
+const child_process = require("child_process"); // eslint-disable-line camelcase
 const fs = require("fs");
 const path = require("path");
-const child_process = require("child_process");
+
+const express = require("express");
 const {transformSync} = require("@babel/core");
 const commandExists = require("command-exists").sync;
 
@@ -21,25 +23,7 @@ module.exports = function createServer(options) {
     };
 
     app.use(express.json());
-    
-    const modifiers = {
-        shift: false,
-        alt: false,
-        control: false,
-    }
-    let shift = false;
-    
-    const getActiveModifiers = () => {
-        return Object.keys(modifiers).filter(key => modifiers[key]);
-    }
-    
-    const mouseDelay = 100;
-    const keyboardDelay = 500;
-    
-    const sleep = async (duration) => 
-        new Promise((resolve, reject) =>
-            setTimeout(resolve, duration));
-    
+
     let screenshotCmd = null;
     if (commandExists("screencapture")) {
         screenshotCmd = "screencapture";
@@ -107,11 +91,16 @@ module.exports = function createServer(options) {
             res.type('js');
             res.send(modules[name]);
         } else {
+            // TODO(kevinb): convert to async/await
+            // eslint-disable-next-line promise/always-return
             cjs2es(name).then(code => {
                 res.type('js');
                 res.send(code);
                 modules[name] = code;
-            });
+            }).catch(reason => {
+                console.error(reason);
+                process.exit(1);
+            })
         }
     }
     
@@ -159,7 +148,7 @@ module.exports = function createServer(options) {
             babelrc: false,
         }).code;
     
-        return code.replace(/from\s+\"([^\"\.\/][^\"]+)\"/g, 
+        return code.replace(/from\s+"([^"./][^"]+)"/g, 
             (match, group1, offset, string) => `from "/node_modules/${group1}.js"`);
     }
     

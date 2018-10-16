@@ -1,8 +1,9 @@
+import path from "path";
+
 import {declare} from "@babel/helper-plugin-utils";
 import * as t from '@babel/types';
 import generate from '@babel/generator';
 import traverse from '@babel/traverse';
-import path from "path";
 
 export default declare((api, options = {}) => {
     api.assertVersion(7);

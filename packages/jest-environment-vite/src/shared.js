@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import createServer from "vite-server";
 import stoppable from "stoppable";
 import ipc from "node-ipc";

@@ -1,20 +1,18 @@
 const rollup = require('rollup');
-const path = require('path');
-const fs = require('fs');
 
 const commonjsPlugin = require('rollup-plugin-commonjs');
 const resolvePlugin = require('rollup-plugin-node-resolve');
 const autoExternalPlugin = require('rollup-plugin-auto-external');
 
-const resolve = require('resolve');
+const resolveModule = require('resolve');
 
 async function resolvePkg(moduleName, options) {
-    return new Promise((_resolve, reject) => {
-        resolve(moduleName, options, (err, res, pkg) => {
+    return new Promise((resolve, reject) => {
+        resolveModule(moduleName, options, (err, res, pkg) => {
             if (err) {
                 reject(err);
             } else {
-                _resolve({res, pkg});
+                resolve({res, pkg});
             }
         });
     });
@@ -51,7 +49,7 @@ async function build(moduleName) {
     const bundle = await rollup.rollup(inputOptions);
 
     // generate code and a sourcemap
-    let {code, map} = await bundle.generate(outputOptions);
+    let {code} = await bundle.generate(outputOptions);
 
     // TODO: use built-in plugin
     code = code
