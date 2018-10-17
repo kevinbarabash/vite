@@ -21,7 +21,7 @@ export default class HiddenButton extends React.Component<Props> {
     render() {
         return <div>
             <button onClick={this.handleClick}>
-                {this.state.clicked ? "clicked" : "no yet"}
+                {this.state.clicked ? "clicked" : "not yet"}
             </button>
             <div className={css(this.props.cover && styles.cover)}/>
         </div>;
