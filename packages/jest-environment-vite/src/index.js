@@ -18,14 +18,6 @@ class ViteEnvironment extends SeleniumEnvironment {
     }
 
     async teardown() {
-        // if (this.collectCoverage) {
-        //     ipc.config.silent = true;
-        //     ipc.connectTo('vite', () => {
-        //         ipc.of.vite.on('connect', () => {
-        //             ipc.of.vite.emit('coverage', this.coverageMap.toJSON());
-        //         });
-        //     });
-        // }
         await super.teardown();
     }
 
