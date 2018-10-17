@@ -1,7 +1,6 @@
 import SeleniumEnvironment from 'jest-environment-selenium';
 import {transformSync} from "@babel/core";
 import istanbulLibCoverage from "istanbul-lib-coverage";
-import ipc from "node-ipc";
 
 class ViteEnvironment extends SeleniumEnvironment {
     constructor(config) {
@@ -19,14 +18,6 @@ class ViteEnvironment extends SeleniumEnvironment {
     }
 
     async teardown() {
-        if (this.collectCoverage) {
-            ipc.config.silent = true;
-            ipc.connectTo('vite', () => {
-                ipc.of.vite.on('connect', () => {
-                    ipc.of.vite.emit('coverage', this.coverageMap.toJSON());
-                });
-            });
-        }
         await super.teardown();
     }
 
@@ -94,7 +85,7 @@ class ViteEnvironment extends SeleniumEnvironment {
             lines.push(`const element = ${data.code};`);
         }
 
-        lines.push(`ReactDOM.render(element, container, () => callback({container: container, coverage: window.__coverage__}));`);
+        lines.push(`ReactDOM.render(element, container, () => callback(container));`);
         lines.push("}");
 
         const {code} = transformSync(lines.join("\n"), {
@@ -109,11 +100,7 @@ class ViteEnvironment extends SeleniumEnvironment {
             func(callback);
         };
 
-        const {container, coverage} = await this.global.driver.executeAsyncScript(script, code);
-
-        if (this.collectCoverage) {
-            this.coverageMap.merge(coverage);
-        }
+        const container = await this.global.driver.executeAsyncScript(script, code);
         this.global.__containers__.push(container);
 
         return container;

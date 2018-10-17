@@ -2,14 +2,17 @@
 import * as React from "react";
 
 export default class HiddenButton extends React.Component<{}> {
+    state = {
+        clicked: false,
+    }
+
     handleClick = () => {
-        // eslint-disable-next-line no-console
-        console.log("click me");
+        this.setState({clicked: true});
     }
 
     render() {
-        return <div>
-            <button onClick={this.handleClick}>Click me!</button>
-        </div>
+        return <button onClick={this.handleClick}>
+            {this.state.clicked ? "clicked" : "no yet"}
+        </button>;
     }
 }

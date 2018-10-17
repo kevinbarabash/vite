@@ -1,3 +1,5 @@
+import ipc from "node-ipc";
+
 beforeEach(async () => {
     await driver.get(`http://localhost:3000/`);
 });
@@ -8,6 +10,16 @@ beforeEach(async () => {
 // know that no global state is being created in which case only calling
 // driver.get() once will result in faster test runs.
 afterEach(async () => {
+    const coverage = await driver.executeScript("return window.__coverage__");
+
+    ipc.config.silent = true;
+    ipc.connectTo('vite', () => {
+        ipc.of.vite.on('connect', () => {
+            ipc.of.vite.emit('coverage', coverage);
+            ipc.disconnect('vite');
+        });
+    });
+
     await driver.executeScript((containers) => {
         (async () => {
             const ReactDOM = (await import("/node_modules/react-dom.js")).default;
