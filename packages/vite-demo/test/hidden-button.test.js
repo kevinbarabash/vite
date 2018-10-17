@@ -11,10 +11,10 @@ describe("HiddenButton", () => {
         const location = await button.getLocation();
         
         const actions = driver.actions();
-        await actions.mouseMove({
+        await actions.click({
             x: location.x + size.width / 2, 
             y: location.y + size.height / 2,
-        }).click().perform();
+        }).perform();
         
         const text = await container.getText();
         expect(text).toBe("clicked");
