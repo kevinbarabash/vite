@@ -12,8 +12,8 @@ describe("HiddenButton", () => {
         
         const actions = driver.actions();
         await actions.click({
-            x: location.x + size.width / 2, 
-            y: location.y + size.height / 2,
+            x: parseInt(location.x + size.width / 2), 
+            y: parseInt(location.y + size.height / 2),
         }).perform();
         
         const text = await container.getText();
