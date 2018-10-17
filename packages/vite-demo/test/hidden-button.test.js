@@ -1,3 +1,4 @@
+/* global By */
 // @flow
 import HiddenButton from "../src/hidden-button.js";
 
