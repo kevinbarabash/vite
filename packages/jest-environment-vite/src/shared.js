@@ -4,6 +4,7 @@ import stoppable from "stoppable";
 import ipc from "node-ipc";
 import istanbulApi from "istanbul-api";
 import istanbulLibCoverage from "istanbul-lib-coverage";
+import rp from "request-promise-native";
 
 let server;
 
@@ -14,10 +15,26 @@ const coverageMaps = [];
 const cache = {};
 
 export async function setup(config) {
+    const logger = {
+        log(...args) {
+            if (verbose) {
+                console.log(...args);
+            }
+        },
+    };
+
     const port = 3000;
     const {verbose} = config;
     server = createServer({port, verbose, cache});
     stoppable(server, 0);
+
+    // TODO: automatically determine dependencies for the package being tested
+    logger.log("compiling react");
+    await rp("http://localhost:3000/node_modules/react.js");
+    logger.log("compiling react-dom");
+    await rp("http://localhost:3000/node_modules/react-dom.js");
+    logger.log("compiling aphrodite");
+    await rp("http://localhost:3000/node_modules/aphrodite.js");
 
     ipc.config.id = "vite";
     ipc.config.silent = true;
