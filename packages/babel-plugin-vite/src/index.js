@@ -45,7 +45,11 @@ export default declare((api, options = {}) => {
 
                     const usedImports = [];
 
-                    usedImports.push(...[...identifiers].map(name => imports[name]));
+                    for (const identifier of identifiers) {
+                        if (imports.hasOwnProperty(identifier)) {
+                            usedImports.push(imports[identifier]);
+                        }
+                    }
 
                     node.arguments[0] = t.objectExpression([
                         t.objectProperty(
