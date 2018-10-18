@@ -1,12 +1,39 @@
+/* global By */
 // @flow
 import HiddenButton from "../src/hidden-button.js";
 
 describe("HiddenButton", () => {
-    test("it should render", async () => {     
-        const element = await render(<HiddenButton/>);
+    test("it should respond to click without a cover", async () => {     
+        const container = await render(<HiddenButton />);
+
+        const button = await driver.findElement(By.tagName("button"));
+        const size = await button.getSize();
+        const location = await button.getLocation();
+        
         const actions = driver.actions();
-        await actions.click(element).perform();
-        const text = await element.getText();
+        await actions.click({
+            x: parseInt(location.x + size.width / 2), 
+            y: parseInt(location.y + size.height / 2),
+        }).perform();
+        
+        const text = await container.getText();
         expect(text).toBe("clicked");
+    });
+
+    test("it should not respond to click with a cover", async () => {     
+        const container = await render(<HiddenButton cover={true} />);
+
+        const button = await driver.findElement(By.tagName("button"));
+        const size = await button.getSize();
+        const location = await button.getLocation();
+        
+        const actions = driver.actions();
+        await actions.mouseMove({
+            x: parseInt(location.x + size.width / 2), 
+            y: parseInt(location.y + size.height / 2),
+        }).click().perform();
+        
+        const text = await container.getText();
+        expect(text).toBe("not yet");
     });
 });
