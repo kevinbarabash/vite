@@ -10,8 +10,7 @@ describe("HiddenButton", () => {
         const size = await button.getSize();
         const location = await button.getLocation();
         
-        const actions = driver.actions();
-        await actions.click({
+        await driver.actions().click({
             x: parseInt(location.x + size.width / 2), 
             y: parseInt(location.y + size.height / 2),
         }).perform();
@@ -27,8 +26,7 @@ describe("HiddenButton", () => {
         const size = await button.getSize();
         const location = await button.getLocation();
         
-        const actions = driver.actions();
-        await actions.mouseMove({
+        await driver.actions().mouseMove({
             x: parseInt(location.x + size.width / 2), 
             y: parseInt(location.y + size.height / 2),
         }).click().perform();
