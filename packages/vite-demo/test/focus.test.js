@@ -68,3 +68,4 @@ describe("focus handling", () => {
         expect(await element.getText()).toBe("bar");
     });
 });
+
