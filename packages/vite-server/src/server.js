@@ -100,7 +100,7 @@ module.exports = function createServer(options) {
         serveModule(res, name);
     });
     
-    app.get("/node_modules/:scope/:module", (req, res) => {
+    app.get("/node_modules/:scope/:module.js", (req, res) => {
         const name = req.params.module;
         const scope = req.params.scope;
         serveModule(res, `${scope}/${name}`);
