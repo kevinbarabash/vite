@@ -1,0 +1,8 @@
+{
+  "packages": [
+    "packages/babel-plugin-vite",
+    "packages/jest-environment-vite",
+    "packages/vite-server"
+  ],
+  "version": "0.0.1"
+}

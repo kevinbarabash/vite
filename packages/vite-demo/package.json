@@ -41,8 +41,8 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "jest": "^23.6.0",
-    "@khanacademy/babel-plugin-vite": "0.0.1",
-    "@khanacademy/jest-environment-vite": "0.0.1"
+    "@khanacademy/babel-plugin-vite": "^0.0.1",
+    "@khanacademy/jest-environment-vite": "^0.0.1"
   },
   "scripts": {
     "test": "jest"
