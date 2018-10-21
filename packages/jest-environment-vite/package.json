@@ -1,6 +1,9 @@
 {
   "name": "@khanacademy/jest-environment-vite",
   "version": "0.0.2",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/index.js",
   "license": "MIT",
   "dependencies": {
