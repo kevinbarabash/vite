@@ -27,7 +27,10 @@ async function build(moduleName) {
     // versions.
     // TODO(kevinb): make this configurable
     const useModule = pkg && pkg.module
-        && (pkg.name.startsWith("@khanacademy") || pkg.name === "react-router-dom" || pkg.name === "history");
+        && (pkg.name.startsWith("@khanacademy") || 
+            pkg.name === "react-router-dom" || 
+            pkg.name === "history" || 
+            pkg.name === "aphrodite");
 
     const input = useModule
         ? res.replace(pkg.main, pkg.module)
@@ -39,7 +42,7 @@ async function build(moduleName) {
     // The reason for this is that some of them may or may not be ES6 modules
     // and rollup doesn't work well when including a CommonJS module from an
     // ES6 module.
-    if (useModule) {
+    if (useModule && pkg.name !== "aphrodite") {
         plugins.push(
             autoExternalPlugin({
                 packagePath: res.replace(pkg.main, "package.json"),
@@ -65,6 +68,10 @@ async function build(moduleName) {
                 },
             })
         );
+    } else if (pkg.name === "aphrodite") {
+        // Fixes MISSING_EXPORT error with aphrodite which is caused by
+        // aphrodite not not having a default export.
+        plugins.push(commonjsPlugin({}));
     }
 
     const inputOptions = {
