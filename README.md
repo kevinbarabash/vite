@@ -31,7 +31,7 @@ Example config:
 ```
   "jest": {
     "testRegex": "/test/.+\\.js$",
-    "testEnvironment": "jest-environment-vite",
+    "testEnvironment": "@khanacademy/jest-environment-vite",
     "testEnvironmentOptions": {
       "capabilities": {
         "browserName": "chrome",
@@ -44,9 +44,9 @@ Example config:
       },
       "collectCoverage": true
     },
-    "globalSetup": "jest-environment-vite/dist/global-setup.js",
-    "globalTeardown": "jest-environment-vite/dist/global-teardown.js",
-    "setupTestFrameworkScriptFile": "jest-environment-vite/dist/setup.js",
+    "globalSetup": "@khanacademy/jest-environment-vite/dist/global-setup.js",
+    "globalTeardown": "@khanacademy/jest-environment-vite/dist/global-teardown.js",
+    "setupTestFrameworkScriptFile": "@khanacademy/jest-environment-vite/dist/setup.js",
     "verbose": false,
     "moduleNameMapper": {
       "^@khanacademy/(.*)$": "<rootDir>/node_modules/@khanacademy/$1/dist/index.js"
