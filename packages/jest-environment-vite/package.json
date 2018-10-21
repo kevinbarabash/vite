@@ -1,6 +1,6 @@
 {
   "name": "@khanacademy/jest-environment-vite",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publishConfig": {
     "access": "public"
   },
@@ -11,7 +11,7 @@
     "@babel/core": "^7.1.2",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@khanacademy/vite-server": "^0.0.5",
+    "@khanacademy/vite-server": "^0.0.6",
     "get-port": "^4.0.0",
     "istanbul-api": "^2.0.6",
     "istanbul-lib-coverage": "^2.0.1",
