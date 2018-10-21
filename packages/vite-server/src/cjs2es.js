@@ -22,19 +22,21 @@ async function build(moduleName) {
     const basedir = process.cwd();
     const {res, pkg} = await resolvePkg(moduleName, {basedir: basedir});
 
-    // We prefer using the modules we're testing (@khanacademy/*) in ES6 form.
-    // There are also some modules which are easier to bundle using their ES6
-    // versions.
     // TODO(kevinb): make this configurable
-    const useModule = pkg && pkg.module
-        && (pkg.name.startsWith("@khanacademy") || 
-            pkg.name === "react-router-dom" || 
-            pkg.name === "history" || 
-            pkg.name === "aphrodite");
+    const useModule = pkg && pkg.module && pkg.name.startsWith("@khanacademy");
 
-    const input = useModule
-        ? res.replace(pkg.main, pkg.module)
-        : res;
+    let input = res;
+
+    if (useModule) {
+        input = res.replace(pkg.main, pkg.module)
+    } else if (pkg && pkg.name === "react-router-dom") {
+        // UMD versions of modules are really easy for rollup to convert to
+        // ES6 modules because they've already been bundled into a single
+        // file.
+        input = res.replace(pkg.main, "umd/react-router-dom.js")
+    } else if (pkg && pkg.name === "aphrodite") {
+        input = res.replace(pkg.main, "dist/aphrodite.umd.js")
+    }
 
     const plugins = [];
     
@@ -42,7 +44,7 @@ async function build(moduleName) {
     // The reason for this is that some of them may or may not be ES6 modules
     // and rollup doesn't work well when including a CommonJS module from an
     // ES6 module.
-    if (useModule && pkg.name !== "aphrodite") {
+    if (useModule) {
         plugins.push(
             autoExternalPlugin({
                 packagePath: res.replace(pkg.main, "package.json"),
@@ -68,10 +70,6 @@ async function build(moduleName) {
                 },
             })
         );
-    } else if (pkg.name === "aphrodite") {
-        // Fixes MISSING_EXPORT error with aphrodite which is caused by
-        // aphrodite not not having a default export.
-        plugins.push(commonjsPlugin({}));
     }
 
     const inputOptions = {
