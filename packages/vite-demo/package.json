@@ -5,7 +5,7 @@
   "license": "MIT",
   "jest": {
     "testRegex": "/test/.+\\.js$",
-    "testEnvironment": "jest-environment-vite",
+    "testEnvironment": "@khanacademy/jest-environment-vite",
     "testEnvironmentOptions": {
       "capabilities": {
         "browserName": "chrome",
@@ -18,10 +18,13 @@
       },
       "collectCoverage": true
     },
-    "globalSetup": "jest-environment-vite/dist/global-setup.js",
-    "globalTeardown": "jest-environment-vite/dist/global-teardown.js",
-    "setupTestFrameworkScriptFile": "jest-environment-vite/dist/setup.js",
-    "verbose": false
+    "globalSetup": "@khanacademy/jest-environment-vite/dist/global-setup.js",
+    "globalTeardown": "@khanacademy/jest-environment-vite/dist/global-teardown.js",
+    "setupTestFrameworkScriptFile": "@khanacademy/jest-environment-vite/dist/setup.js",
+    "verbose": false,
+    "moduleNameMapper": {
+      "^@khanacademy/(.*)$": "<rootDir>/node_modules/@khanacademy/$1/dist/index.js"
+    }
   },
   "dependencies": {
     "aphrodite": "^2.2.3",
@@ -37,9 +40,9 @@
     "@babel/preset-react": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
-    "babel-plugin-vite": "0.0.1",
     "jest": "^23.6.0",
-    "jest-environment-vite": "0.0.1"
+    "@khanacademy/babel-plugin-vite": "0.0.1",
+    "@khanacademy/jest-environment-vite": "0.0.1"
   },
   "scripts": {
     "test": "jest"

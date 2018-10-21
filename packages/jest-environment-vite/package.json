@@ -1,5 +1,5 @@
 {
-  "name": "jest-environment-vite",
+  "name": "@khanacademy/jest-environment-vite",
   "version": "0.0.1",
   "main": "dist/index.js",
   "license": "MIT",
@@ -16,7 +16,7 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
     "stoppable": "^1.0.6",
-    "vite-server": "0.0.1"
+    "@khanacademy/vite-server": "0.0.1"
   },
   "scripts": {
     "build": "babel src/*.js -d dist",
