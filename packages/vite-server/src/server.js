@@ -128,8 +128,10 @@ module.exports = function createServer(options) {
     
         const code = transformSync(src, {
             // use plugins and presets from vite-server
+            // TODO(kevninb): make this configurable
             plugins: [
                 require("@babel/plugin-proposal-class-properties"),
+                require("@babel/plugin-proposal-object-rest-spread"),
                 require("@babel/plugin-syntax-dynamic-import"), 
                 require("@babel/plugin-transform-flow-strip-types"), 
                 require("babel-plugin-istanbul"),
