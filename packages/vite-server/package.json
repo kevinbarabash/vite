@@ -1,5 +1,5 @@
 {
-  "name": "vite-server",
+  "name": "@khanacademy/vite-server",
   "version": "0.0.1",
   "main": "src/server.js",
   "license": "MIT",

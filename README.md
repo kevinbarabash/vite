@@ -47,9 +47,14 @@ Example config:
     "globalSetup": "jest-environment-vite/dist/global-setup.js",
     "globalTeardown": "jest-environment-vite/dist/global-teardown.js",
     "setupTestFrameworkScriptFile": "jest-environment-vite/dist/setup.js",
-    "verbose": false
+    "verbose": false,
+    "moduleNameMapper": {
+      "^@khanacademy/(.*)$": "<rootDir>/node_modules/@khanacademy/$1/dist/index.js"
+    }
   }
 ```
+
+You'lla
 
 **Notes**:
 - `collectCoverage` must be specified within `testEnvironmentOptions`.  This
