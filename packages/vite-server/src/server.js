@@ -75,16 +75,6 @@ module.exports = function createServer(options) {
     });
     
     const serveModule = (res, name) => {
-        const filename = name === "@khanacademy/vite-helpers"
-            ? path.join(__dirname, "helpers.js")
-            : path.join(__dirname, '../../../node_modules', name);
-    
-        if (!fs.existsSync(filename)) {
-            logger.log(`${filename} doesn't exist`);
-            res.status(404);
-            res.end();
-        }
-    
         logger.log(`serving: ${name}`);
         if (name in cache) {
             res.type('js');
