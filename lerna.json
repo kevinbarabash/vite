@@ -4,5 +4,5 @@
     "packages/jest-environment-vite",
     "packages/vite-server"
   ],
-  "version": "0.0.1"
+  "version": "0.0.2"
 }

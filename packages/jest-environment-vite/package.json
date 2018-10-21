@@ -1,6 +1,6 @@
 {
   "name": "@khanacademy/jest-environment-vite",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "license": "MIT",
   "dependencies": {
@@ -8,6 +8,7 @@
     "@babel/core": "^7.1.2",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@khanacademy/vite-server": "^0.0.2",
     "get-port": "^4.0.0",
     "istanbul-api": "^2.0.6",
     "istanbul-lib-coverage": "^2.0.1",
@@ -15,8 +16,7 @@
     "node-ipc": "^9.1.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
-    "stoppable": "^1.0.6",
-    "@khanacademy/vite-server": "^0.0.1"
+    "stoppable": "^1.0.6"
   },
   "scripts": {
     "build": "babel src/*.js -d dist",
