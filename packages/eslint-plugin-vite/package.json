@@ -1,5 +1,5 @@
 {
-  "name": "eslint-plugin-vite",
+  "name": "@khanacademy/eslint-plugin-vite",
   "version": "0.0.1",
   "publishConfig": {
     "access": "public"

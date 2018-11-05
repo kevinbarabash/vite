@@ -1,5 +1,7 @@
 /* global By */
 // @flow
+import * as React from "react";
+
 import HiddenButton from "../src/hidden-button.js";
 
 describe("HiddenButton", () => {

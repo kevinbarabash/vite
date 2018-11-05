@@ -19,3 +19,4 @@ jobs:
       - run: cd packages/babel-plugin-vite && yarn build
       - run: cd packages/jest-environment-vite && yarn build
       - run: cd packages/vite-demo && yarn test
+      - run: cd packages/vite-demo && yarn lint

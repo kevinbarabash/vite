@@ -1,8 +1,12 @@
 {
     "env": {
-        "vite/vite": true
+        "jest": true,
+        "@khanacademy/vite/vite": true
     },
+    "extends": [
+        "@khanacademy/eslint-config"
+    ],
     "plugins": [
-        "vite"
+        "@khanacademy/vite"
     ]
 }
