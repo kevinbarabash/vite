@@ -1,10 +1,5 @@
 {
     "extends": [
         "@khanacademy/eslint-config"
-    ],
-    "globals": {
-        "__containers__": true,
-        "driver": true,
-        "render": true
-    }
+    ]
 }

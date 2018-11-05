@@ -1,0 +1,8 @@
+{
+    "env": {
+        "vite/vite": true
+    },
+    "plugins": [
+        "vite"
+    ]
+}
