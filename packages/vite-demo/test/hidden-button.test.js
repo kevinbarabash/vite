@@ -9,13 +9,8 @@ describe("HiddenButton", () => {
         const container = await render(<HiddenButton />);
 
         const button = await driver.findElement(By.tagName("button"));
-        const size = await button.getSize();
-        const location = await button.getLocation();
         
-        await driver.actions().click({
-            x: parseInt(location.x + size.width / 2), 
-            y: parseInt(location.y + size.height / 2),
-        }).perform();
+        await driver.actions().click(button).perform();
         
         const text = await container.getText();
         expect(text).toBe("clicked");
