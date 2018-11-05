@@ -1,4 +1,6 @@
 // @flow
+import * as React from "react";
+
 import Bar from "../src/bar.js";
 
 describe("bar", () => {
