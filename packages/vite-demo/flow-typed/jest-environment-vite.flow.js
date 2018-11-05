@@ -40,39 +40,18 @@ declare class By {
 declare class ActionSequence {
     constructor(driver: WebDriver): this;
     perform(): Promise<void>;
-    mouseMove(
-        location: WebElement,
-        opt_offset?: Location
-    ): ActionSequence;
+    mouseMove(element: WebElement, offset?: Location): ActionSequence;
     mouseMove(location: Location): ActionSequence;
-    mouseDown(
-        opt_elementOrButton?: WebElement,
-        opt_button?: number
-    ): ActionSequence;
-    mouseDown(opt_elementOrButton?: number): ActionSequence;
-    mouseUp(
-        opt_elementOrButton?: WebElement,
-        opt_button?: number
-    ): ActionSequence;
-    mouseUp(opt_elementOrButton?: number): ActionSequence;
-    dragAndDrop(
-        element: WebElement,
-        location: WebElement
-    ): ActionSequence;
-    dragAndDrop(
-        element: WebElement,
-        location: Location
-    ): ActionSequence;
-    click(
-        opt_elementOrButton?: WebElement,
-        opt_button?: number
-    ): ActionSequence;
-    click(opt_elementOrButton?: number): ActionSequence;
-    doubleClick(
-        opt_elementOrButton?: WebElement,
-        opt_button?: number
-    ): ActionSequence;
-    doubleClick(opt_elementOrButton?: number): ActionSequence;
+    mouseDown(element?: WebElement, button?: number): ActionSequence;
+    mouseDown(button?: number): ActionSequence;
+    mouseUp(element?: WebElement, button?: number): ActionSequence;
+    mouseUp(button?: number): ActionSequence;
+    dragAndDrop(element: WebElement, location: WebElement): ActionSequence;
+    dragAndDrop(element: WebElement, location: Location): ActionSequence;
+    click(element?: WebElement, button?: number): ActionSequence;
+    click(button?: number): ActionSequence;
+    doubleClick(element?: WebElement, button?: number): ActionSequence;
+    doubleClick(button?: number): ActionSequence;
     keyDown(key: string): ActionSequence;
     keyUp(key: string): ActionSequence;
     sendKeys(...var_args: any[]): ActionSequence;
