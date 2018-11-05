@@ -20,3 +20,4 @@ jobs:
       - run: cd packages/jest-environment-vite && yarn build
       - run: cd packages/vite-demo && yarn test
       - run: cd packages/vite-demo && yarn lint
+      - run: cd packages/vite-demo && yarn flow
