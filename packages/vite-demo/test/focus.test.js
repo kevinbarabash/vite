@@ -1,5 +1,7 @@
 /* global By */
 // @flow
+import * as React from "react";
+
 describe("focus handling", () => {
     test("pressing tab should switch focus", async () => {     
         await render(<div>

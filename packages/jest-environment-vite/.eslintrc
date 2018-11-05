@@ -1,5 +1,9 @@
 {
     "rules": {
         "import/no-commonjs": "off"
+    },
+    "globals": {
+        "__containers__": true,
+        "driver": true
     }
 }

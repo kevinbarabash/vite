@@ -5,7 +5,12 @@ import {css, StyleSheet} from "aphrodite";
 type Props = {
     cover: boolean,
 }
-export default class HiddenButton extends React.Component<Props> {
+
+type State = {
+    clicked: boolean,
+}
+
+export default class HiddenButton extends React.Component<Props, State> {
     static defaultProps = {
         cover: false,
     }

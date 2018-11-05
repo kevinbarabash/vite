@@ -1,6 +1,7 @@
 {
   "packages": [
     "packages/babel-plugin-vite",
+    "packages/eslint-plugin-vite",
     "packages/jest-environment-vite",
     "packages/vite-demo",
     "packages/vite-server"
